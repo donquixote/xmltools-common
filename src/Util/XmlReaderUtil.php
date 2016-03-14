@@ -121,8 +121,9 @@ final class XmlReaderUtil {
       }
       elseif (\XMLReader::ELEMENT === $xmlReader->nodeType) {
         $tagName = $xmlReader->name;
+        $isEmpty = $xmlReader->isEmptyElement;
         $attributes = self::readElementAttributes($xmlReader);
-        if ($xmlReader->isEmptyElement) {
+        if ($isEmpty) {
           $elements[] = new TreeElement_NoChildren($tagName, $attributes);
         }
         else {
