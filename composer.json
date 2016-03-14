@@ -18,7 +18,7 @@
   ],
   "require": {
     "php": ">=5.5.0",
-    "donquixote/datastream": "~0.0"
+    "donquixote/datastream-common": "~0.0"
   },
   "autoload": {
     "psr-4": {
