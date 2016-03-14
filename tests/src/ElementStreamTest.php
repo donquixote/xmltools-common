@@ -2,9 +2,11 @@
 
 namespace Donquixote\XmlTools\Tests;
 
+use Donquixote\XmlTools\Element\Pivot\PivotElement;
 use Donquixote\XmlTools\Element\Pivot\PivotElement_NoChildren;
 use Donquixote\XmlTools\Element\Tree\TreeElement;
 use Donquixote\XmlTools\Element\Text\TextElement;
+use Donquixote\XmlTools\Element\Tree\TreeElement_NoChildren;
 use Donquixote\XmlTools\ElementStream\Provider\ElementStreamProvider_XmlReader;
 
 class ElementStreamTest extends \PHPUnit_Framework_TestCase {
@@ -104,9 +106,19 @@ class ElementStreamTest extends \PHPUnit_Framework_TestCase {
       static::fail('Missing 2nd element.');
       return;
     }
-    static::assertInstanceOf(PivotElement_NoChildren::class, $element);
+    static::assertInstanceOf(PivotElement::class, $element);
     static::assertSame('ExampleItem', $element->getTagName());
     static::assertSame('3', $element->getAttributeValue('ID'));
+
+    $children = $element->getChildren();
+    static::assertInstanceOf(TextElement::class, $children[0]);
+    static::assertInstanceOf(TreeElement_NoChildren::class, $children[1]);
+    static::assertInstanceOf(TextElement::class, $children[2]);
+    static::assertInstanceOf(TreeElement_NoChildren::class, $children[3]);
+    static::assertInstanceOf(TextElement::class, $children[4]);
+    /** @var \Donquixote\XmlTools\Element\Tree\TreeElementInterface $child */
+    $child = $children[3];
+    static::assertSame('2', $child->getAttributeValue('ID'));
 
     // Attempt to fetch 4th element.
     if (FALSE !== $stream->getElement()) {

@@ -6,7 +6,10 @@
         <ExampleItemList>
             <ExampleItem ID="1" type="numeric" Updated="2015-12-08 11:38:14" measure_id="24" />
             <ExampleItem ID="2" type="numeric" Updated="2015-12-08 11:38:17" measure_id="24" />
-            <ExampleItem ID="3" type="numeric" Updated="2015-12-08 11:38:20" measure_id="24" />
+            <ExampleItem ID="3" type="numeric" Updated="2015-12-08 11:38:20" measure_id="24">
+                <ChildItem ID="1"/>
+                <ChildItem ID="2"/>
+            </ExampleItem>
         </ExampleItemList>
     </Response>
 </EXAMPLE-interface>
