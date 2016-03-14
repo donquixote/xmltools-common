@@ -1,13 +1,13 @@
 <?php
 
-namespace Donquixote\XmlTools\Element\Attributed;
+namespace Donquixote\XmlTools\Element\Tag;
 
 use Donquixote\XmlTools\Element\ElementInterface;
 
 /**
  * @todo Rename to NamedElementInterface?
  */
-interface AttributedElementInterface extends ElementInterface {
+interface TagElementInterface extends ElementInterface {
 
   /**
    * @return string

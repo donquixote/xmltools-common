@@ -2,7 +2,7 @@
 
 <phpunit colors="true" bootstrap="vendor/autoload.php">
   <testsuites>
-    <testsuite name="xmltools">
+    <testsuite name="xmltools-common">
       <directory>./tests/src</directory>
     </testsuite>
   </testsuites>

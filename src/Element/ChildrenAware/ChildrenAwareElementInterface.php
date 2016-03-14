@@ -10,19 +10,19 @@ interface ChildrenAwareElementInterface {
   function getChildren();
 
   /**
-   * @return \Donquixote\XmlTools\Element\Named\NamedElementInterface[]
+   * @return \Donquixote\XmlTools\Element\Tree\TreeElementInterface[]
    */
   function getNamedChildren();
 
   /**
    * @param string $name
    *
-   * @return \Donquixote\XmlTools\Element\Named\NamedElementInterface[]
+   * @return \Donquixote\XmlTools\Element\Tree\TreeElementInterface[]
    */
   function getChildrenWithName($name);
 
   /**
-   * @return \Donquixote\XmlTools\Element\Named\NamedElementInterface[][]
+   * @return \Donquixote\XmlTools\Element\Tree\TreeElementInterface[][]
    *   Format: $[$tagName][] = $childElement
    */
   function getNamedChildrenByTagName();

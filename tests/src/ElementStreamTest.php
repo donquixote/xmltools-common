@@ -2,7 +2,7 @@
 
 namespace Donquixote\XmlTools\Tests;
 
-use Donquixote\XmlTools\Element\Named\NamedElement;
+use Donquixote\XmlTools\Element\Tree\TreeElement;
 use Donquixote\XmlTools\Element\Text\TextElement;
 use Donquixote\XmlTools\ElementStream\Provider\ElementStreamProvider_XmlReader;
 
@@ -40,17 +40,17 @@ class ElementStreamTest extends \PHPUnit_Framework_TestCase {
     static::assertSame('ExampleData', $element->getTagName());
     static::assertSame('3', $element->getAttributeValue('ID'));
 
-    static::assertSame('ExampleDataList', $element->getParentIfKnown()->getTagName());
-    static::assertSame('Response', $element->getParentIfKnown()->getParentIfKnown()->getTagName());
-    static::assertSame('EXAMPLE-interface', $element->getParentIfKnown()->getParentIfKnown()->getParentIfKnown()->getTagName());
-    static::assertNull($element->getParentIfKnown()->getParentIfKnown()->getParentIfKnown()->getParentIfKnown());
+    static::assertSame('ExampleDataList', $element->getParentOrNull()->getTagName());
+    static::assertSame('Response', $element->getParentOrNull()->getParentOrNull()->getTagName());
+    static::assertSame('EXAMPLE-interface', $element->getParentOrNull()->getParentOrNull()->getParentOrNull()->getTagName());
+    static::assertNull($element->getParentOrNull()->getParentOrNull()->getParentOrNull()->getParentOrNull());
 
     $children = $element->getChildren();
 
     static::assertInstanceOf(TextElement::class, $children[0]);
-    static::assertInstanceOf(NamedElement::class, $children[1]);
+    static::assertInstanceOf(TreeElement::class, $children[1]);
     static::assertInstanceOf(TextElement::class, $children[2]);
-    /** @var \Donquixote\XmlTools\Element\Named\NamedElementInterface $child */
+    /** @var \Donquixote\XmlTools\Element\Tree\TreeElementInterface $child */
     $child = $children[1];
     static::assertSame('Names', $child->getTagName());
     static::assertSame(array(), $child->getAttributes());
@@ -58,9 +58,9 @@ class ElementStreamTest extends \PHPUnit_Framework_TestCase {
     $children = $child->getChildren();
 
     static::assertInstanceOf(TextElement::class, $children[0]);
-    static::assertInstanceOf(NamedElement::class, $children[1]);
+    static::assertInstanceOf(TreeElement::class, $children[1]);
     static::assertInstanceOf(TextElement::class, $children[2]);
-    /** @var \Donquixote\XmlTools\Element\Named\NamedElementInterface $child */
+    /** @var \Donquixote\XmlTools\Element\Tree\TreeElementInterface $child */
     $child = $children[1];
     static::assertSame('Name', $child->getTagName());
     static::assertSame(array('langid' => '0'), $child->getAttributes());

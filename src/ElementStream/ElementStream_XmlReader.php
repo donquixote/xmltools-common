@@ -17,7 +17,7 @@ class ElementStream_XmlReader implements ElementStreamInterface {
   private $expectedTrail;
 
   /**
-   * @var \Donquixote\XmlTools\Element\Named\NamedElementInterface|null|false
+   * @var \Donquixote\XmlTools\Element\Tree\TreeElementInterface|null|false
    *   The last element that was returned with getElement(), or
    *   NULL, if getElement() was not called yet, or
    *   FALSE, for eof.
@@ -65,7 +65,7 @@ class ElementStream_XmlReader implements ElementStreamInterface {
   /**
    * Gets the next element, or false on eof.
    *
-   * @return \Donquixote\XmlTools\Element\Named\NamedElementInterface|false
+   * @return \Donquixote\XmlTools\Element\Tree\TreeElementInterface|false
    *
    * @throws \Donquixote\DataStream\Exception\StreamFetchException
    */

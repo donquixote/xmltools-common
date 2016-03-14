@@ -1,5 +1,7 @@
 {
-  "name": "donquixote/xmltools",
+  "name": "donquixote/xmltools-common",
+  "type": "library",
+  "homepage": "http://github.com/donquixote/xmltools-common",
   "license": "MIT",
   "authors": [
     {
@@ -11,7 +13,7 @@
   "repositories": [
     {
       "type": "vcs",
-      "url": "https://github.com/donquixote/datastream"
+      "url": "https://github.com/donquixote/datastream-common"
     }
   ],
   "require": {

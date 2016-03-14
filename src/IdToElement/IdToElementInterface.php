@@ -14,7 +14,7 @@ interface IdToElementInterface {
   /**
    * @param string|int $id
    *
-   * @return \Donquixote\XmlTools\Element\Named\NamedElementInterface|null
+   * @return \Donquixote\XmlTools\Element\Tree\TreeElementInterface|null
    */
   function idGetElement($id);
 

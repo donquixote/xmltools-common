@@ -2,7 +2,7 @@
 
 namespace Donquixote\XmlTools\Tests;
 
-use Donquixote\XmlTools\Element\Named\NamedElement;
+use Donquixote\XmlTools\Element\Tree\TreeElement;
 use Donquixote\XmlTools\Element\Text\TextElement;
 use Donquixote\XmlTools\Util\XmlReaderUtil;
 
@@ -69,11 +69,11 @@ class XmlReaderUtilTest extends \PHPUnit_Framework_TestCase {
     $children = XmlReaderUtil::readChildren($xmlReader);
 
     static::assertInstanceOf(TextElement::class, $children[0]);
-    static::assertInstanceOf(NamedElement::class, $children[1]);
+    static::assertInstanceOf(TreeElement::class, $children[1]);
     static::assertInstanceOf(TextElement::class, $children[2]);
     
     $child = $children[1];
-    if (!$child instanceof NamedElement) {
+    if (!$child instanceof TreeElement) {
       static::fail('Unexpected element class.');
       return;
     }
@@ -97,10 +97,10 @@ class XmlReaderUtilTest extends \PHPUnit_Framework_TestCase {
 
     // Check $trailElement
     static::assertSame('ExampleData', $trailElement->getTagName());
-    static::assertSame('ExampleDataList', $trailElement->getParentIfKnown()->getTagName());
-    static::assertSame('Response', $trailElement->getParentIfKnown()->getParentIfKnown()->getTagName());
-    static::assertSame('EXAMPLE-interface', $trailElement->getParentIfKnown()->getParentIfKnown()->getParentIfKnown()->getTagName());
-    static::assertNull($trailElement->getParentIfKnown()->getParentIfKnown()->getParentIfKnown()->getParentIfKnown());
+    static::assertSame('ExampleDataList', $trailElement->getParentOrNull()->getTagName());
+    static::assertSame('Response', $trailElement->getParentOrNull()->getParentOrNull()->getTagName());
+    static::assertSame('EXAMPLE-interface', $trailElement->getParentOrNull()->getParentOrNull()->getParentOrNull()->getTagName());
+    static::assertNull($trailElement->getParentOrNull()->getParentOrNull()->getParentOrNull()->getParentOrNull());
     static::assertSame(
       array(
         'ID' => '1',
@@ -121,10 +121,10 @@ class XmlReaderUtilTest extends \PHPUnit_Framework_TestCase {
     }
 
     static::assertSame('ExampleData', $trailElement->getTagName());
-    static::assertSame('ExampleDataList', $trailElement->getParentIfKnown()->getTagName());
-    static::assertSame('Response', $trailElement->getParentIfKnown()->getParentIfKnown()->getTagName());
-    static::assertSame('EXAMPLE-interface', $trailElement->getParentIfKnown()->getParentIfKnown()->getParentIfKnown()->getTagName());
-    static::assertNull($trailElement->getParentIfKnown()->getParentIfKnown()->getParentIfKnown()->getParentIfKnown());
+    static::assertSame('ExampleDataList', $trailElement->getParentOrNull()->getTagName());
+    static::assertSame('Response', $trailElement->getParentOrNull()->getParentOrNull()->getTagName());
+    static::assertSame('EXAMPLE-interface', $trailElement->getParentOrNull()->getParentOrNull()->getParentOrNull()->getTagName());
+    static::assertNull($trailElement->getParentOrNull()->getParentOrNull()->getParentOrNull()->getParentOrNull());
     static::assertSame(
       array(
         'ID' => '2',

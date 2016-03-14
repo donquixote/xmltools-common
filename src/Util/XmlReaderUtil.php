@@ -2,8 +2,8 @@
 
 namespace Donquixote\XmlTools\Util;
 
-use Donquixote\XmlTools\Element\Named\NamedElement;
-use Donquixote\XmlTools\Element\Named\NamedElement_NoChildren;
+use Donquixote\XmlTools\Element\Tree\TreeElement;
+use Donquixote\XmlTools\Element\Tree\TreeElement_NoChildren;
 use Donquixote\XmlTools\Element\Other\OtherElement;
 use Donquixote\XmlTools\Element\Pivot\PivotElement;
 use Donquixote\XmlTools\Element\Pivot\PivotElement_NoChildren;
@@ -19,7 +19,7 @@ final class XmlReaderUtil {
    * @param string $file
    * @param string[] $expectedTrail
    *
-   * @return \Donquixote\XmlTools\Element\Named\NamedElementInterface|null
+   * @return \Donquixote\XmlTools\Element\Tree\TreeElementInterface|null
    */
   static function fileReadElement($file, array $expectedTrail) {
     if (NULL === $xmlReader = self::openFile($file)) {
@@ -74,7 +74,7 @@ final class XmlReaderUtil {
         if (NULL === $trailElement) {
           throw new \RuntimeException('Reached root element, cannot go further.');
         }
-        $trailElement = $trailElement->getParentIfKnown();
+        $trailElement = $trailElement->getParentOrNull();
       }
       if (\XMLReader::END_ELEMENT === $xmlReader->nodeType) {
         continue;
@@ -119,13 +119,14 @@ final class XmlReaderUtil {
         $elements[] = new TextElement($xmlReader->readString());
       }
       elseif (\XMLReader::ELEMENT === $xmlReader->nodeType) {
+        $tagName = $xmlReader->name;
         $attributes = self::readElementAttributes($xmlReader);
         if ($xmlReader->isEmptyElement) {
-          $elements[] = new NamedElement_NoChildren(NULL, $xmlReader->name, $attributes);
+          $elements[] = new TreeElement_NoChildren($tagName, $attributes);
         }
         else {
           $children = self::readChildren($xmlReader);
-          $elements[] = new NamedElement(NULL, $xmlReader->name, $attributes, $children);
+          $elements[] = new TreeElement($tagName, $attributes, $children);
         }
       }
       else {

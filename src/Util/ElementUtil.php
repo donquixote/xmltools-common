@@ -2,7 +2,7 @@
 
 namespace Donquixote\XmlTools\Util;
 
-use Donquixote\XmlTools\Element\Named\NamedElementInterface;
+use Donquixote\XmlTools\Element\Tree\TreeElementInterface;
 use Donquixote\XmlTools\Element\Other\OtherElementInterface;
 use Donquixote\XmlTools\Element\Text\TextElementInterface;
 
@@ -14,7 +14,7 @@ final class ElementUtil {
   private function __construct() {}
 
   /**
-   * @param \Donquixote\XmlTools\Element\Named\NamedElementInterface $element
+   * @param \Donquixote\XmlTools\Element\Tree\TreeElementInterface $element
    * @param string $tagName
    * @param string $kk
    * @param string $vk
@@ -22,7 +22,7 @@ final class ElementUtil {
    * @return string[]
    *   Format: $[$key] = '..'
    */
-  static function elementChildrenAsKeyValue(NamedElementInterface $element, $tagName, $kk, $vk) {
+  static function elementChildrenAsKeyValue(TreeElementInterface $element, $tagName, $kk, $vk) {
     $values = array();
     foreach ($element->getChildrenWithName($tagName) as $child) {
       if (1
@@ -36,14 +36,14 @@ final class ElementUtil {
   }
 
   /**
-   * @param \Donquixote\XmlTools\Element\Named\NamedElementInterface $element
+   * @param \Donquixote\XmlTools\Element\Tree\TreeElementInterface $element
    * @param string $tagName
    * @param string $vk
    *
    * @return string[]
    *   Format: $[] = $value
    */
-  static function elementChildrenAsAttributeValue(NamedElementInterface $element, $tagName, $vk) {
+  static function elementChildrenAsAttributeValue(TreeElementInterface $element, $tagName, $vk) {
     $values = array();
     foreach ($element->getNamedChildren() as $child) {
       if ($tagName === $child->getTagName()) {
@@ -56,12 +56,12 @@ final class ElementUtil {
   }
 
   /**
-   * @param \Donquixote\XmlTools\Element\Named\NamedElementInterface $element
+   * @param \Donquixote\XmlTools\Element\Tree\TreeElementInterface $element
    *
-   * @return \Donquixote\XmlTools\Element\Named\NamedElementInterface[][]
+   * @return \Donquixote\XmlTools\Element\Tree\TreeElementInterface[][]
    *   Format: $[$childElement->getTagName()][] = $childElement
    */
-  static function elementChildrenByTagName(NamedElementInterface $element) {
+  static function elementChildrenByTagName(TreeElementInterface $element) {
     $children = array();
     foreach ($element->getNamedChildren() as $child) {
       $children[$child->getTagName()][] = $child;
@@ -70,17 +70,17 @@ final class ElementUtil {
   }
 
   /**
-   * @param \Donquixote\XmlTools\Element\Named\NamedElementInterface $element
+   * @param \Donquixote\XmlTools\Element\Tree\TreeElementInterface $element
    *
    * @return string
    */
-  static function elementGetText(NamedElementInterface $element) {
+  static function elementGetText(TreeElementInterface $element) {
     $text = '';
     foreach ($element->getChildren() as $child) {
       if ($child instanceof TextElementInterface) {
         $text .= $child->getText();
       }
-      elseif ($child instanceof NamedElementInterface) {
+      elseif ($child instanceof TreeElementInterface) {
         $text .= self::elementGetText($child);
       }
     }
@@ -88,7 +88,7 @@ final class ElementUtil {
   }
 
   /**
-   * @param \Donquixote\XmlTools\Element\Named\NamedElementInterface[] $elements
+   * @param \Donquixote\XmlTools\Element\Tree\TreeElementInterface[] $elements
    *
    * @return mixed[][]
    */
@@ -101,11 +101,11 @@ final class ElementUtil {
   }
 
   /**
-   * @param \Donquixote\XmlTools\Element\Named\NamedElementInterface $element
+   * @param \Donquixote\XmlTools\Element\Tree\TreeElementInterface $element
    *
    * @return mixed[]
    */
-  static function simplifyElement(NamedElementInterface $element) {
+  static function simplifyElement(TreeElementInterface $element) {
     $simplified = array();
     foreach ($element->getAttributes() as $k => $v) {
       $simplified['# ' . $k] = $v;
@@ -115,7 +115,7 @@ final class ElementUtil {
   }
 
   /**
-   * @param \Donquixote\XmlTools\Element\Named\NamedElementInterface[] $elements
+   * @param \Donquixote\XmlTools\Element\Tree\TreeElementInterface[] $elements
    *
    * @return string[]
    */
@@ -145,7 +145,7 @@ final class ElementUtil {
         $prefix = '/#text';
         $vv = array('' => $element->getText());
       }
-      elseif ($element instanceof NamedElementInterface) {
+      elseif ($element instanceof TreeElementInterface) {
         $prefix = '/' . $element->getTagName();
         $vv = self::pathifyElement($element);
       }
@@ -171,11 +171,11 @@ final class ElementUtil {
   }
 
   /**
-   * @param \Donquixote\XmlTools\Element\Named\NamedElementInterface $element
+   * @param \Donquixote\XmlTools\Element\Tree\TreeElementInterface $element
    *
    * @return string[]
    */
-  static function pathifyElement(NamedElementInterface $element) {
+  static function pathifyElement(TreeElementInterface $element) {
     $pathified = array();
     foreach ($element->getAttributes() as $prefix => $v) {
       $pathified['[' . $prefix . ']'] = $v;
@@ -185,12 +185,12 @@ final class ElementUtil {
   }
 
   /**
-   * @param \Donquixote\XmlTools\Element\Named\NamedElementInterface $element
+   * @param \Donquixote\XmlTools\Element\Tree\TreeElementInterface $element
    * @param string $xpath
    *
-   * @return \Donquixote\XmlTools\Element\Named\NamedElementInterface[]
+   * @return \Donquixote\XmlTools\Element\Tree\TreeElementInterface[]
    */
-  static function elementDescendantsWithXPath(NamedElementInterface $element, $xpath) {
+  static function elementDescendantsWithXPath(TreeElementInterface $element, $xpath) {
     if ('' === $xpath) {
       return array('' => $element);
     }
@@ -205,12 +205,12 @@ final class ElementUtil {
   }
 
   /**
-   * @param \Donquixote\XmlTools\Element\Named\NamedElementInterface $element
+   * @param \Donquixote\XmlTools\Element\Tree\TreeElementInterface $element
    * @param string[] $trail
    *
-   * @return \Donquixote\XmlTools\Element\Named\NamedElementInterface[]
+   * @return \Donquixote\XmlTools\Element\Tree\TreeElementInterface[]
    */
-  static function elementDescendantsWithTrail(NamedElementInterface $element, array $trail) {
+  static function elementDescendantsWithTrail(TreeElementInterface $element, array $trail) {
     $tagName = array_shift($trail);
     if (array() === $trail) {
       return $element->getChildrenWithName($tagName);
@@ -218,7 +218,7 @@ final class ElementUtil {
     $descendants = array();
     foreach ($element->getChildrenWithName($tagName) as $i => $child) {
       foreach (self::elementDescendantsWithTrail($child, $trail) as $suffix => $leafElement) {
-        if (!$leafElement instanceof NamedElementInterface) {
+        if (!$leafElement instanceof TreeElementInterface) {
           throw new \RuntimeException('Expected to find named element.');
         }
         $descendants[$i . '/' . $suffix] = $leafElement;
@@ -229,22 +229,22 @@ final class ElementUtil {
 
   /**
    * @param object $object
-   * @param \Donquixote\XmlTools\Element\Named\NamedElementInterface $element
+   * @param \Donquixote\XmlTools\Element\Tree\TreeElementInterface $element
    * @param string[] $keys
    */
-  static function objectPropertiesFromAttributes($object, NamedElementInterface $element, array $keys) {
+  static function objectPropertiesFromAttributes($object, TreeElementInterface $element, array $keys) {
     foreach (self::elementGetAttributeValues($element, $keys) as $k => $v) {
       $object->$k = $v;
     }
   }
 
   /**
-   * @param \Donquixote\XmlTools\Element\Named\NamedElementInterface $element
+   * @param \Donquixote\XmlTools\Element\Tree\TreeElementInterface $element
    * @param string[] $keys
    *
    * @return string[]
    */
-  static function elementGetAttributeValues(NamedElementInterface $element, array $keys) {
+  static function elementGetAttributeValues(TreeElementInterface $element, array $keys) {
     $result = array();
     $attributes = $element->getAttributes();
     foreach ($keys as $k) {
@@ -256,7 +256,7 @@ final class ElementUtil {
   }
 
   /**
-   * @param \Donquixote\XmlTools\Element\Named\NamedElementInterface $element
+   * @param \Donquixote\XmlTools\Element\Tree\TreeElementInterface $element
    * @param string $xpath
    * @param string $valueAttrName
    * @param string $conditionAttrName
@@ -264,7 +264,7 @@ final class ElementUtil {
    *
    * @return null|string
    */
-  static function elementPickDescendantValue(NamedElementInterface $element, $xpath, $valueAttrName, $conditionAttrName, $conditionValue) {
+  static function elementPickDescendantValue(TreeElementInterface $element, $xpath, $valueAttrName, $conditionAttrName, $conditionValue) {
     foreach (self::elementDescendantsWithXPath($element, $xpath) as $child) {
       if ($conditionValue === $child->getAttributeValue($conditionAttrName)) {
         return $child->getAttributeValue($valueAttrName);
@@ -274,14 +274,14 @@ final class ElementUtil {
   }
 
   /**
-   * @param \Donquixote\XmlTools\Element\Named\NamedElementInterface $element
+   * @param \Donquixote\XmlTools\Element\Tree\TreeElementInterface $element
    * @param string $xpath
    * @param string $conditionAttrName
    * @param string $conditionValue
    *
    * @return null|string
    */
-  static function elementPickDescendentText(NamedElementInterface $element, $xpath, $conditionAttrName, $conditionValue) {
+  static function elementPickDescendentText(TreeElementInterface $element, $xpath, $conditionAttrName, $conditionValue) {
     foreach (self::elementDescendantsWithXPath($element, $xpath) as $child) {
       if ($conditionValue === $child->getAttributeValue($conditionAttrName)) {
         return self::elementGetText($child);

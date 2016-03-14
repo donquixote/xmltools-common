@@ -1,10 +1,8 @@
 <?php
 
-namespace Donquixote\XmlTools\Element\Attributed;
+namespace Donquixote\XmlTools\Element\Tag;
 
-use Donquixote\XmlTools\Element\ElementBase;
-
-class AttributedElementBase extends ElementBase implements AttributedElementInterface {
+class TagElementBase implements TagElementInterface {
 
   /**
    * @var string
@@ -17,12 +15,10 @@ class AttributedElementBase extends ElementBase implements AttributedElementInte
   private $attributes;
 
   /**
-   * @param \Donquixote\XmlTools\Element\Attributed\AttributedElementInterface $parentIfKnown
    * @param string $tagName
    * @param string[] $attributes
    */
-  function __construct(AttributedElementInterface $parentIfKnown = NULL, $tagName, array $attributes) {
-    parent::__construct($parentIfKnown);
+  function __construct($tagName, array $attributes) {
     $this->tagName = $tagName;
     $this->attributes = $attributes;
   }

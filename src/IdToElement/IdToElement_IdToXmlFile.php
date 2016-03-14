@@ -46,7 +46,7 @@ class IdToElement_IdToXmlFile implements  IdToElementInterface {
   /**
    * @param string|int $id
    *
-   * @return \Donquixote\XmlTools\Element\Named\NamedElementInterface|null
+   * @return \Donquixote\XmlTools\Element\Tree\TreeElementInterface|null
    */
   function idGetElement($id) {
     if (NULL === $file = call_user_func($this->idToFile, $id)) {

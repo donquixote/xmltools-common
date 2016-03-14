@@ -1,11 +1,10 @@
 <?php
 
-namespace Donquixote\XmlTools\Element\Named;
+namespace Donquixote\XmlTools\Element\Tree;
 
-use Donquixote\XmlTools\Element\Attributed\AttributedElementBase;
-use Donquixote\XmlTools\Element\Attributed\AttributedElementInterface;
+use Donquixote\XmlTools\Element\Tag\TagElementBase;
 
-class NamedElement extends AttributedElementBase implements NamedElementInterface {
+class TreeElement extends TagElementBase implements TreeElementInterface {
 
   /**
    * @var \Donquixote\XmlTools\Element\ElementInterface[]
@@ -13,28 +12,27 @@ class NamedElement extends AttributedElementBase implements NamedElementInterfac
   private $children;
 
   /**
-   * @var \Donquixote\XmlTools\Element\Named\NamedElementInterface[]
+   * @var \Donquixote\XmlTools\Element\Tree\TreeElementInterface[]
    *   Format: $[] = $childElement
    */
   private $namedChildren = array();
 
   /**
-   * @var \Donquixote\XmlTools\Element\Named\NamedElementInterface[][]
+   * @var \Donquixote\XmlTools\Element\Tree\TreeElementInterface[][]
    *   Format: $[$tagName][] = $childElement
    */
   private $namedChildrenByName = array();
 
   /**
-   * @param \Donquixote\XmlTools\Element\Attributed\AttributedElementInterface $parentIfKnown
    * @param string $tagName
    * @param string[] $attributes
    * @param \Donquixote\XmlTools\Element\ElementInterface[] $children
    */
-  function __construct(AttributedElementInterface $parentIfKnown = NULL, $tagName, array $attributes, array $children) {
-    parent::__construct($parentIfKnown, $tagName, $attributes);
+  function __construct($tagName, array $attributes, array $children) {
+    parent::__construct($tagName, $attributes);
     $this->children = $children;
     foreach ($children as $child) {
-      if ($child instanceof NamedElementInterface) {
+      if ($child instanceof TreeElementInterface) {
         $this->namedChildren[] = $child;
         $this->namedChildrenByName[$child->getTagName()][] = $child;
       }
@@ -42,7 +40,7 @@ class NamedElement extends AttributedElementBase implements NamedElementInterfac
   }
 
   /**
-   * @return NamedElementInterface[]
+   * @return TreeElementInterface[]
    *   Format: $[] = $childNode
    */
   function getChildren() {
@@ -50,7 +48,7 @@ class NamedElement extends AttributedElementBase implements NamedElementInterfac
   }
 
   /**
-   * @return \Donquixote\XmlTools\Element\Named\NamedElementInterface[]
+   * @return \Donquixote\XmlTools\Element\Tree\TreeElementInterface[]
    */
   function getNamedChildren() {
     return $this->namedChildren;
@@ -59,7 +57,7 @@ class NamedElement extends AttributedElementBase implements NamedElementInterfac
   /**
    * @param string $name
    *
-   * @return \Donquixote\XmlTools\Element\Named\NamedElementInterface[]
+   * @return \Donquixote\XmlTools\Element\Tree\TreeElementInterface[]
    */
   function getChildrenWithName($name) {
     return array_key_exists($name, $this->namedChildrenByName)
@@ -68,7 +66,7 @@ class NamedElement extends AttributedElementBase implements NamedElementInterfac
   }
 
   /**
-   * @return \Donquixote\XmlTools\Element\Named\NamedElementInterface[][]
+   * @return \Donquixote\XmlTools\Element\Tree\TreeElementInterface[][]
    *   Format: $[$tagName][] = $childElement
    */
   function getNamedChildrenByTagName() {
