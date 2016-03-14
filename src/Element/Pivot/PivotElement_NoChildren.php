@@ -15,9 +15,9 @@ class PivotElement_NoChildren extends TreeElement_NoChildren implements PivotEle
   /**
    * @param \Donquixote\XmlTools\Element\Trail\TrailElementInterface $parentOrNull
    * @param string $tagName
-   * @param array|\string[] $attributes
+   * @param string[] $attributes
    */
-  function __construct(TrailElementInterface $parentOrNull, $tagName, $attributes) {
+  function __construct(TrailElementInterface $parentOrNull, $tagName, array $attributes) {
     parent::__construct($tagName, $attributes);
     $this->parentOrNull = $parentOrNull;
   }
