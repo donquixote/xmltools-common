@@ -85,10 +85,11 @@ final class XmlReaderUtil {
       }
       $trailTagNames[] = $xmlReader->name;
       $tagName = $xmlReader->name;
+      $isEmpty = $xmlReader->isEmptyElement;
       $attributes = self::readElementAttributes($xmlReader);
       if ($expectedTrail === $trailTagNames) {
-        if ($xmlReader->isEmptyElement) {
-          $trailElement = new PivotElement_NoChildren($trailElement, $attributes, $tagName);
+        if ($isEmpty) {
+          $trailElement = new PivotElement_NoChildren($trailElement, $tagName, $attributes);
         }
         else {
           $children = self::readChildren($xmlReader);
