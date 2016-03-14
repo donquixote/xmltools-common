@@ -2,6 +2,7 @@
 
 namespace Donquixote\XmlTools\Tests;
 
+use Donquixote\XmlTools\Element\Pivot\PivotElement_NoChildren;
 use Donquixote\XmlTools\Element\Tree\TreeElement;
 use Donquixote\XmlTools\Element\Text\TextElement;
 use Donquixote\XmlTools\ElementStream\Provider\ElementStreamProvider_XmlReader;
@@ -64,6 +65,48 @@ class ElementStreamTest extends \PHPUnit_Framework_TestCase {
     $child = $children[1];
     static::assertSame('Name', $child->getTagName());
     static::assertSame(array('langid' => '0'), $child->getAttributes());
+
+    // Attempt to fetch 4th element.
+    if (FALSE !== $stream->getElement()) {
+      static::fail('Unexpectedly found a 4th element.');
+      return;
+    }
+  }
+
+  function testExample2() {
+
+    $provider = new ElementStreamProvider_XmlReader(
+      dirname(__DIR__) . '/fixtures/example2.xml',
+      array('EXAMPLE-interface', 'Response', 'ExampleItemList', 'ExampleItem'));
+
+    $stream = $provider->getElementStream();
+
+    // Fetch 1st element.
+    if (FALSE === $element = $stream->getElement()) {
+      static::fail('Missing 1st element.');
+      return;
+    }
+    static::assertInstanceOf(PivotElement_NoChildren::class, $element);
+    static::assertSame('ExampleItem', $element->getTagName());
+    static::assertSame('1', $element->getAttributeValue('ID'));
+
+    // Fetch 2nd element.
+    if (FALSE === $element = $stream->getElement()) {
+      static::fail('Missing 2nd element.');
+      return;
+    }
+    static::assertInstanceOf(PivotElement_NoChildren::class, $element);
+    static::assertSame('ExampleItem', $element->getTagName());
+    static::assertSame('2', $element->getAttributeValue('ID'));
+
+    // Fetch 3rd element.
+    if (FALSE === $element = $stream->getElement()) {
+      static::fail('Missing 2nd element.');
+      return;
+    }
+    static::assertInstanceOf(PivotElement_NoChildren::class, $element);
+    static::assertSame('ExampleItem', $element->getTagName());
+    static::assertSame('3', $element->getAttributeValue('ID'));
 
     // Attempt to fetch 4th element.
     if (FALSE !== $stream->getElement()) {
