@@ -2,7 +2,7 @@
 
 namespace Donquixote\XmlTools\Element\Tag;
 
-class TagElementBase implements TagElementInterface {
+abstract class TagElementBase implements TagElementInterface {
 
   /**
    * @var string
