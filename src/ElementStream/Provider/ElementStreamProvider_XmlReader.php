@@ -27,6 +27,13 @@ class ElementStreamProvider_XmlReader implements ElementStreamProviderInterface,
   }
 
   /**
+   * @return string
+   */
+  function __toString() {
+    return "XmlReader(\nfile:" . json_encode($this->file) . ",\nxtrail: " . implode('/', $this->xtrail) . "\n)";
+  }
+
+  /**
    * @return \Donquixote\XmlTools\ElementStream\ElementStreamInterface
    */
   function getElementStream() {

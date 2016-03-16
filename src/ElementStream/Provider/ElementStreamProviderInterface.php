@@ -2,7 +2,9 @@
 
 namespace Donquixote\XmlTools\ElementStream\Provider;
 
-interface ElementStreamProviderInterface {
+use Donquixote\DataStream\Stream\Provider\StreamProviderCommonInterface;
+
+interface ElementStreamProviderInterface extends StreamProviderCommonInterface {
 
   /**
    * @return \Donquixote\XmlTools\ElementStream\ElementStreamInterface
